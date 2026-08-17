@@ -17,4 +17,6 @@ export interface TextBox {
   rawText: string;
   placeholders: string[]; //ejs:['names', 'date']
   style: TextStyle;
+  type?: 'text' | 'qr';
+  mode?: 'autofit' | 'wrap';
 }
