@@ -15,9 +15,30 @@ export const useTemplateStore = defineStore("template", () => {
     originalHeight.value = height;
   }
 
-  function addTextBox(box: TextBox) {
-    textBoxes.value.push(box);
-  }
+  const addTextBox = (box: Partial<TextBox>) => {
+    const newBox: TextBox = {
+      id: box.id || crypto.randomUUID(),
+      x: box.x || 50,
+      y: box.y || 50,
+      width: box.width || 200,
+      height: box.height || 40,
+      rawText: box.rawText || 'Nuevo {campo}',
+      placeholders: box.placeholders || [],
+      type: box.type || 'text',
+      mode: box.mode || 'autofit',
+      style: {
+        fontFamily: box.style?.fontFamily || 'Helvetica',
+        fontSize: box.style?.fontSize || 24,
+        fontWeight: box.style?.fontWeight || 'normal',
+        fontStyle: box.style?.fontStyle || 'normal',
+        textDecoration: box.style?.textDecoration || 'none',
+        textAlign: box.style?.textAlign || 'center',
+        color: box.style?.color || '#000000'
+      }
+    };
+    textBoxes.value.push(newBox);
+    selectedTextBoxId.value = newBox.id;
+  };
 
   function updateTextBox(id: string, updates: Partial<TextBox>) {
     const index = textBoxes.value.findIndex((b) => b.id === id);
